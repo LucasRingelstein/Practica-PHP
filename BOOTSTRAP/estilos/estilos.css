@@ -1,0 +1,99 @@
+/* Inicio Servicio Principal */
+    .servicioPrincipal{
+        background-color: rgba(255, 78, 13, 0.952);
+        color: white;  
+    }
+    .texto{
+        padding: 0 30px;
+        justify-content: center;
+    }
+    .bodyPrincipal{
+        padding: 70px 30px;
+    }
+    .TituloServicioPrincipal{
+        font-family: 'Segoe UI','Open Sans', sans-serif;
+    }
+    
+    .pServicioPrincipal{
+        font-family: 'Segoe UI','Open Sans', sans-serif;
+        font-size: large;
+    }
+    
+/* Fin Servicio Principal */
+
+/* Inicio Servicio Secundario */
+    .servicioSecundario{
+        margin: 0 110px;
+    }
+    .cadaServicio{
+        margin: 35px;
+    }
+
+    .bodySecundario{
+        text-align: center;
+        align-content: center;
+        background-color: rgba(255, 78, 13, 0.952);
+        color: white;
+        padding: 40px;
+        
+    }
+
+    .TituloServicioSecundario{
+        font-family: 'Segoe UI','Open Sans', sans-serif;
+        font-size: small;
+    }
+    
+    .pServicioSecundario{
+        font-family: 'Segoe UI','Open Sans', sans-serif;
+        font-size: small;
+        font-weight: 200;
+    }
+    
+/* Fin Servicio Secundario */
+
+/* Inicio Mas Servicios */
+.masServicios{
+    padding: 0 100px;
+}
+.serviciosTerceros{
+    padding: 35px 100px;
+
+}
+.tituloTerciario{
+    font-family: 'Segoe UI','Open Sans', sans-serif;
+    font-size: small;
+}
+.pTerciario{
+    font-family: 'Segoe UI','Open Sans', sans-serif;
+    font-size: small;
+    font-weight: 200;
+}
+/* Fin Mas Servicios */
+
+/* Inicio barra de navegacion */
+    a:hover{
+        color: black;
+    }
+    .navbar{
+        background-color:  rgba(255, 78, 13, 0.952);
+    }
+    .nav-link{
+        font-family: 'Segoe UI','Open Sans', sans-serif;
+        font-size: medium;
+        font-weight: 400;
+        color: white;
+    }
+    .nav-item{
+        padding-right: 25px;
+        padding-left: 25px;
+    }
+/* Fin barra de navegacion */
+
+/* Inicio Section */
+    .fondo{
+        background-image: url(https://img.freepik.com/vector-premium/patron-carro-compras-transparente-sobre-fondo-blanco-icono-carrito-compras-simple-diseno-creativo-puede-utilizar-papel-tapiz-fondo-pagina-web-textil-impresion-ui-ux_159242-3135.jpg?w=740) ;
+    }
+/* Fin Section */
+
+
+

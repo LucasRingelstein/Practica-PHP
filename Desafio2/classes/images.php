@@ -3,6 +3,7 @@
         public function __construct(){
             parent::__construct();
         }
+        
         public function create($images){
             try{
                 $query = $this->db->connect()->prepare('INSERT INTO images(url,content) VALUES(:url,:content)');
@@ -50,9 +51,9 @@
             $query->execute(['id' => $id]);
 
             while($row = $query->fetch()){
-                $imagenSeleccionada->matricula = $row['id'];
-                $imagenSeleccionada->nombre = $row['nombre'];
-                $imagenSeleccionada->apellido = $row['apellido'];
+                $imagenSeleccionada->id = $row['id'];
+                $imagenSeleccionada->url = $row['url'];
+                $imagenSeleccionada->content = $row['content'];
             }
 
             return $imagenSeleccionada;

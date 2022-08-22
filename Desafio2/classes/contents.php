@@ -3,10 +3,11 @@
         public function __construct(){
             parent::__construct();
         }
+        
         public function create($contents){
             try{
-                $query = $this->db->connect()->prepare('INSERT INTO contents(url,content) VALUES(:url,:content)');
-                ($query->execute(['url'=> $contents['url'],'content'=>$contents['content']]));
+                $query = $this->db->connect()->prepare('INSERT INTO contents(title,content,keywords,description,category) VALUES(:title,:content,:keyword,:description,:category)');
+                ($query->execute(['title'=> $contents['title'],'content'=>$contents['content'],'keywords'=>$contents['keywords'],'description'=>$contents['description'],'category'=>$contents['category']]));
                 return true;
             }catch(PDOException $e){
                 //echo "Ya existe esa matricula";
@@ -27,11 +28,15 @@
         }
 
         public function update($nuevaImagen){
-            $query = $this->db->connect()->prepare("UPDATE contents SET url = :url WHERE id = :id");
+            $query = $this->db->connect()->prepare("UPDATE contents SET title = :title, content = :content, keywords = :keywords, description = :description, category = :category  WHERE id = :id");
             try{
                 $query->execute([
                     'id' => $nuevaImagen['id'],
-                    'url' => $nuevaImagen['url']
+                    'title' => $nuevaImagen['title'],
+                    'content' => $nuevaImagen['content'],
+                    'keywords' => $nuevaImagen['keywords'],
+                    'description' => $nuevaImagen['description'],
+                    'category' => $nuevaImagen['category']
                 ]);
                 return true;
             }catch(PDOException $e){
@@ -50,9 +55,12 @@
             $query->execute(['id' => $id]);
 
             while($row = $query->fetch()){
-                $imagenSeleccionada->matricula = $row['id'];
-                $imagenSeleccionada->nombre = $row['nombre'];
-                $imagenSeleccionada->apellido = $row['apellido'];
+                $imagenSeleccionada->id = $row['id'];
+                $imagenSeleccionada->title = $row['title'];
+                $imagenSeleccionada->content = $row['content'];
+                $imagenSeleccionada->keywords = $row['keywords'];
+                $imagenSeleccionada->description = $row['description'];
+                $imagenSeleccionada->category = $row['category'];
             }
 
             return $imagenSeleccionada;

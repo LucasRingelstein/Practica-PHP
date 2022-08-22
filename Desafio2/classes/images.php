@@ -1,4 +1,5 @@
 <?php
+    require(dirname(__DIR__,1). "/config/database.php");
     class images extends DB{
         public function __construct(){
             parent::__construct();

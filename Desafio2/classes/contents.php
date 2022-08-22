@@ -1,15 +1,17 @@
 <?php
-    class contents extends DB{
+    namespace Clases;
+    require_once(dirname(__DIR__,1) . "/config/database.php");
+    class Contents {
+        private $con;
         public function __construct(){
-            parent::__construct();
+            $this->con= new DB();
         }
-        
         public function create($contents){
             try{
                 $query = $this->db->connect()->prepare('INSERT INTO contents(title,content,keywords,description,category) VALUES(:title,:content,:keyword,:description,:category)');
                 ($query->execute(['title'=> $contents['title'],'content'=>$contents['content'],'keywords'=>$contents['keywords'],'description'=>$contents['description'],'category'=>$contents['category']]));
                 return true;
-            }catch(PDOException $e){
+            }catch(\PDOException $e){
                 //echo "Ya existe esa matricula";
                 return false;
             }
@@ -22,7 +24,7 @@
                     'id' => $id
                 ]);
                 return true;
-            }catch(PDOException $e){
+            }catch(\PDOException $e){
                 return false;
             }
         }
@@ -39,13 +41,14 @@
                     'category' => $nuevaImagen['category']
                 ]);
                 return true;
-            }catch(PDOException $e){
+            }catch(\PDOException $e){
                 return false;
             }
         }
 
         public function list(){
-            $query = $this->db->connect()('SELECT * FROM contents');
+            $query = $this->con->connect()->prepare('SELECT * FROM contents');
+            $query->execute();
             return $query;
         }
 
@@ -64,7 +67,7 @@
             }
 
             return $imagenSeleccionada;
-        }catch(PDOException $e){
+        }catch(\PDOException $e){
             return null;
         }
         }

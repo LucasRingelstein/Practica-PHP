@@ -14,11 +14,16 @@
                   <li class="nav-item">
                     <a class="nav-link" href="index.php"><b>INICIO</b></a>
                   </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="?op=contents&accion=create"><b>CREAR</b></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="?op=contents&accion=create"><b>EDITAR</b></a>
+                  </li>
                 </ul>
               </div>
             </div>
           </nav>
-        
     </header>
 </body>
 </html>

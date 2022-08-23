@@ -47,7 +47,7 @@
         }
 
         public function list(){
-            $query = mysql_query('SELECT * FROM contents');
+            $query = $this->con->connect()->prepare('SELECT * FROM contents');
             $query->execute();
             return $query;
         }

@@ -18,7 +18,7 @@
                     <a class="nav-link" href="?op=contents&accion=create"><b>CREAR</b></a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="?op=contents&accion=create"><b>EDITAR</b></a>
+                    <a class="nav-link" href="?op=contents&accion=update"><b>EDITAR</b></a>
                   </li>
                 </ul>
               </div>

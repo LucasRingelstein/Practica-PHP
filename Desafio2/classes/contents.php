@@ -32,7 +32,7 @@ use PDO;
                 return false;
             }
         }
-        // title = " . $update['title'] . ", content = ".  $update['content'] . ", keywords = " . $update['keywords'] . ", description = " . $update['description'] . ", category = " . $update['category'] . " WHERE id = $id"
+        
         public function update($id,$update){
             $query = $this->con->connect()->prepare("UPDATE contents SET title =:title, content =:content, keywords =:keywords, description =:description, category =:category WHERE id = $id");
             try{
@@ -68,7 +68,7 @@ use PDO;
         }
 
         public function view($id){
-            $query = $this->con->connect()->prepare('SELECT * FROM contents WHERE id=:id');
+            $query = $this->con->connect()->prepare('SELECT * FROM contents WHERE id = :id');
             $query->execute(['id'=>$id]);
             if($query->rowCount()){
                 $rows = $query->fetch(\PDO::FETCH_ASSOC);

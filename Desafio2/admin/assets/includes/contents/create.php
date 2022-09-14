@@ -1,7 +1,11 @@
 <?php
     require_once(dirname(__DIR__,4) . "/classes/contents.php");
+    require_once(dirname(__DIR__,4) . "/classes/images.php");
     $content=new Clases\Contents();
     $contents=array();
+
+    $image=new Clases\images();
+
 
     if(isset($_POST) && !empty($_POST)){
         $contents['titulo'] = $_POST['titulo'];
@@ -9,8 +13,15 @@
         $contents['palabraClave'] = $_POST['palabraClave'];
         $contents['descripcion'] = $_POST['descripcion'];
         $contents['categoria'] = $_POST['categoria'];
-
         $content->create($contents);
+
+        
+        $rutaTemp= $_FILES['imagen']['tmp_name'];
+        $name=$_FILES['imagen']['name'];
+        $ruta = (dirname(__DIR__,2) . "/images/" . $name);
+        rename($rutaTemp,$ruta);
+        
+        $image->create($ruta);
     }
     
 ?>
@@ -41,6 +52,7 @@
             
         </div>
         <div class="container">
+            <p>Imagen</p>
             <input type="file" name="imagen" required>
         </div>
         <div class="container">

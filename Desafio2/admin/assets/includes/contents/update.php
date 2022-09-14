@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+use Clases\Contents;
+
         require(dirname(__DIR__,4). "/classes/contents.php");
         // Se crean las variables necesarias
         $contents=new Clases\Contents();
@@ -8,7 +11,7 @@
     
         // Se llama a la funcion
         $res = $contents->view($_GET['id']);
-        if(isset($_POST) && !empty($_POST)){
+        if(isset($_POST["enviar"]) && !empty($_POST["enviar"])){
             $update['title'] = $_POST['titulo'];
             $update['content'] = $_POST['contenido'];
             $update['keywords'] = $_POST['palabraClave'];
@@ -16,6 +19,8 @@
             $update['category'] = $_POST['categoria'];
 
             $contents->update($_GET['id'],$update);
+
+            header('Location: index.php');
         }
 
 
@@ -47,10 +52,11 @@
             
         </div>
         <div class="container">
-            <input type="file"  name="imagen" required>
+            <input type="file"  name="imagen" value="<?php echo $res['category'] ?>" required>
         </div>
         <div class="container">
-            <input type="submit" value="Enviar">
+            <input type="submit" value="Enviar" name="enviar">
+
              
         </div>
     </form>

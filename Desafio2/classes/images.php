@@ -1,66 +1,81 @@
 <?php
-    require(dirname(__DIR__,1). "/config/database.php");
-    class images extends DB{
+    namespace Clases;
+
+use PDO;
+
+    require_once(dirname(__DIR__,1) . "/config/database.php");
+    class images {
+        private $con;
         public function __construct(){
-            parent::__construct();
+            $this->con= new DB();
         }
-        
-        public function create($images){
+        public function create($ruta){
+            
             try{
-                $query = $this->db->connect()->prepare('INSERT INTO images(url,content) VALUES(:url,:content)');
-                ($query->execute(['url'=> $images['url'],'content'=>$images['content']]));
+                $query = $this->con->connect()->prepare('INSERT INTO images(url) VALUES(:ruta)');
+                $query->execute(['url' => $ruta]);
                 return true;
-            }catch(PDOException $e){
-                //echo "Ya existe esa matricula";
+            }catch(\PDOException $e){
+                echo "Ya existe esa matricula";
                 return false;
             }
         }
 
         public function delete($id){
-            $query = $this->db->connect()->prepare("DELETE FROM images WHERE id = :id");
+            $query = $this->con->connect()->prepare("DELETE FROM contents WHERE id = :id");
             try{
                 $query->execute([
                     'id' => $id
                 ]);
                 return true;
-            }catch(PDOException $e){
+            }catch(\PDOException $e){
                 return false;
             }
         }
-
-        public function update($nuevaImagen){
-            $query = $this->db->connect()->prepare("UPDATE images SET url = :url WHERE id = :id");
+        
+        public function update($id,$update){
+            $query = $this->con->connect()->prepare("UPDATE contents SET title =:title, content =:content, keywords =:keywords, description =:description, category =:category WHERE id = $id");
             try{
                 $query->execute([
-                    'id' => $nuevaImagen['id'],
-                    'url' => $nuevaImagen['url']
+                    'title' => $update['title'],
+                    'content' => $update['content'],
+                    'keywords' => $update['keywords'],
+                    'description' => $update['description'],
+                    'category' => $update['category'],
                 ]);
                 return true;
-            }catch(PDOException $e){
+            }catch(\PDOException $e){
                 return false;
             }
         }
 
         public function list(){
-            $query = $this->db->connect()('SELECT * FROM images');
-            return $query;
-        }
+            $query = $this->con->connect()->prepare('SELECT * FROM contents');
+            $query->execute();
+            $res=array();
+            if($query->rowCount()){
+                $rows = $query->fetchAll(\PDO::FETCH_ASSOC);
+                foreach ($rows as $row) {
+                    $res[] = $row;
 
-        public function view($imagenSeleccionada,$id){
-            $query = $this->db->connect()->prepare("SELECT * FROM images WHERE id = :id");
-        try{
-            $query->execute(['id' => $id]);
+                }
+                       
 
-            while($row = $query->fetch()){
-                $imagenSeleccionada->id = $row['id'];
-                $imagenSeleccionada->url = $row['url'];
-                $imagenSeleccionada->content = $row['content'];
+            }else{
+                echo "No hay elementos en la tabla";
             }
-
-            return $imagenSeleccionada;
-        }catch(PDOException $e){
-            return null;
+            return $res;
         }
+
+        public function view($id){
+            $query = $this->con->connect()->prepare('SELECT * FROM contents WHERE id=:id');
+            $query->execute(['id'=>$id]);
+            if($query->rowCount()){
+                $rows = $query->fetch(\PDO::FETCH_ASSOC);
+            }else{
+                echo "No existe el elemento";
+            }
+            return $rows;
         }
 
     }

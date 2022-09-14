@@ -10,9 +10,9 @@ use PDO;
             $this->con= new DB();
         }
         public function create($ruta){
-            
+            echo $ruta;
             try{
-                $query = $this->con->connect()->prepare('INSERT INTO images(url) VALUES(:ruta)');
+                $query = $this->con->connect()->prepare('INSERT INTO images("url") VALUES(:ruta)');
                 $query->execute(['url' => $ruta]);
                 return true;
             }catch(\PDOException $e){

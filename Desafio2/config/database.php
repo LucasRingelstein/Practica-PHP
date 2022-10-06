@@ -9,7 +9,7 @@
         
         public function __construct(){
             $this->host     = "localhost";
-            $this->db       = "pagina";
+            $this->db       = "riki";
             $this->user     = "root";
             $this->password = "";
             $this->charset  = "utf8mb4";

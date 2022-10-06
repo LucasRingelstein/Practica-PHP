@@ -89,6 +89,12 @@
     }
 /* Fin barra de navegacion */
 
+.cartaImagen{
+    height: fit-content;
+    width: fit-content;
+}
 
-
+.main-wraper{
+    min-height: 100vh;
+}
 

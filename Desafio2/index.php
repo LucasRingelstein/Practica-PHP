@@ -1,114 +1,115 @@
-<!DOCTYPE html>
-    <?php
-    include("assets/includes/header.inc.php");
-    ?>
-<body>
-    <header>
-            <?php
-            include("assets/includes/nav.inc.php");
-            ?>
-    <section>
-        <!-- imagen gigante -->
+<?php
 
-            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                    <img  src="assets/images/Imagen 2.png"  class="d-block w-100 img-fluid" >
-                    </div>
-                    <div class="carousel-item">
-                    <img src="assets/images/Enmascarar grupo 1.png"  class="d-block w-100 img-fluid" >
-                    </div>
-                    <div class="carousel-item">
-                    <img src="assets/images/Imagen 3.png"  class="d-block w-100 img-fluid" >
-                    </div>
-                    <div class="carousel-item">
-                    <img src="assets/images/Imagen 5.png"  class="d-block w-100 img-fluid" >
-                    </div>
-                    <div class="carousel-item">
-                    <img src="assets/images/descarga (1).jpg"  class="d-block w-100 img-fluid" >
-                    </div>
-                    <div class="carousel-item">
-                    <img src="assets/images/descarga.jpg"  class="d-block w-100 img-fluid" >
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-                </button>
-            </div>
+use Clases\Contents;
 
-        
-        <!-- Servicio principal -->
-        <div class="container my-5 px-5">
-            <div class="card border border-0 servicioPrincipal">
-                <div class="row g-0">
-                <div class="col-5">
-                    <img src="assets/images/Imagen 6.png" class="img-fluid rounded-start" style="height: 100%; width: 100%">
+require("classes/contents.php");
+require("classes/banners.php");
+$banners = new Clases\Banners();
+$contents = new Clases\Contents();
+$images = new Clases\Images();
+$res = $contents->listPrincipal();
+$ban = $banners->list();
+include("assets/includes/header.inc.php");
+
+include("assets/includes/nav.inc.php");
+?>
+<section>
+    <!-- imagen gigante -->
+
+
+
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+        <div class="carousel-indicators">
+            <?php for ($i = 0; $i < count($ban); $i++) { ?>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="<?= $i ?>" class="<?= $key == 0 ? "active" : '' ?>" aria-current="true" aria-label="Slide <?= $i ?>"></button>
+            <?php } ?>
+        </div>
+        <div class="carousel-inner">
+            <?php foreach ($ban as $key => $banner) { ?>
+                <div class="position-relative carousel-item <?= $key == 0 ? "active" : '' ?>">
+
+                    <!-- <h5 class="position-absolute " style="z-index: 9999;"><b class="tituloBanner "> titulo del banner </b></h5>
+                    <p class="position-absolute"> contenido del banner </p> -->
+                    <img src="<?= URL . '/admin/assets' . $banner['images'][0]['url'] ?>" class="d-block w-100">
                 </div>
-                <div class="col-7 texto">
+            <?php } ?>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <?php if (count($res) != 0) { ?>
+        <div class="container card cardServicio text-center border border-0 ">
+            <div class="row g-0">
+                <div class="col texto">
                     <div class="card-body bodyPrincipal">
-                    <h1 class="card-title TituloServicioPrincipal"><b>Card title</b></h5>
-                    <p class="card-text pServicioPrincipal">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                        <h1 class="card-text pServicioPrincipal">Servicios Principales</h1>
+                        <hr>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
-        <!-- Servicios secundarios -->
-            <div class="row servicioSecundario ">
-                <div class="col">
-                    <div class="card cadaServicio border border-0">
-                        <img src="assets/images/Imagen 3.png" class="card-img-top">
-                        <div class="card-body bodySecundario ">
-                            <h1 class="TituloServicioSecundario"><b>Servicio 1</b></h1>
-                            <p class="card-text pServicioSecundario">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                      </div>
-                </div>
-                <div class="col">
-                    <div class="card cadaServicio border border-0">
-                        <img src="assets/images/Enmascarar grupo 1.png" class="card-img-top">
-                        <div class="card-body bodySecundario ">
-                            <h3 class="TituloServicioSecundario"><b>Servicio 1</b></h3>
-                            <p class="card-text pServicioSecundario">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                      </div>
-                </div>
-                <div class="col">
-                    <div class="card cadaServicio border border-0">
-                        <img src="assets/images/Enmascarar grupo 1.png" class="card-img-top">
-                        <div class="card-body bodySecundario">
-                            <h3 class="TituloServicioSecundario"><b>Servicio 1</b></h3>
-                            <p class="card-text pServicioSecundario">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                        </div>
-                      </div>
-                </div>
-    </section>
-    <!-- Pie de pagina -->
-    <footer>
-        <div class="container-fluid bg-black masServicios ">
-            <div class="row text-white text-center bg-black ">
-                <div class="col serviciosTerceros">
-                    <h1 class="tituloTerciario">Servicio 1</h1>
-                    <p class="pTerciario">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standa….</p>
-                </div>
-                <div class="col serviciosTerceros">
-                    <h1 class="tituloTerciario">Servicio 1</h1>
-                    <p class="pTerciario">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standa….</p>
-                </div>
-                <div class="col serviciosTerceros">
-                    <h1 class="tituloTerciario">Servicio 1</h1>
-                    <p class="pTerciario">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standa….</p>
-                </div>
-            </div>
-            <?php
-            include("assets/includes/footer.inc.php")
+        <div class="container my-5" style="text-align: -webkit-center;">
+            <?php foreach ($res as  $servicios) {
             ?>
+                <div class="my-5 card  align-self-center border border-0 servicioPrincipal" style="width: 80%;">
+                    <div class="row g-0 ">
+                        <div class="col-5">
+                            <img src="<?= URL . '/admin/assets' . $servicios['images'][0]['url'] ?>" class="rounded-start float-start" style="height: 100%; width: 100%">
+                        </div>
+                        <div class="col-7 texto">
+                            <div class="card-body bodyPrincipal">
+                                <a class="link" href="<?= URL ?>/servicio.php?id=<?= $servicios['id'] ?>">
+                                    <h1 class="card-title TituloServicioPrincipal"><b><?php echo $servicios['title'] ?></b></h1>
+
+                                </a>
+                                <hr class="linea">
+                                <p class="card-text pServicioPrincipal"><?php echo $servicios['content'] ?></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php }
+        } else { ?>
+            <div class="container card cardServicio text-center border border-0 ">
+                <div class="row g-0">
+                    <div class="col texto">
+                        <div class="card-body bodyPrincipal">
+                            <h1 class="card-text pServicioPrincipal">Servicios Principales</h1>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container my-5">
+                <div class="my-5 card  align-self-center border border-0 servicioPrincipal">
+                    <div class="row g-0 ">
+                        <div class="col-5">
+                            <img src="assets/images/noImage.jpg" class="rounded-start float-start" style="height: 100%; width: 100%">
+                        </div>
+                        <div class="col-7 texto">
+                            <div class="card-body bodyPrincipal">
+                                <h1 class="card-title TituloServicioPrincipal"><b>TITULO</b></h1>
+                                <hr class="linea">
+                                <p class="card-text pServicioPrincipal">Contenido</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
         </div>
-    </footer>
-</body>
-</html>
+
+        <!-- Servicio principal -->
+
+        </div>
+</section>
+<!-- Pie de pagina -->
+<?php
+include("assets/includes/footer.inc.php");
+?>

@@ -71,8 +71,18 @@ class Pelicula
         return false;
     }
 
-    public function mostrar($id){
-        $sql = "SELECT * FROM 'peliculas' INNER JOIN categorias ON peliculas.categoria_id = categorias.id ORDER BY peliculas.id DESC";
+    public function mostrar(){
+        $sql = "SELECT * FROM peliculas INNER JOIN categorias ON peliculas.categoria_id = categorias.id ORDER BY peliculas.id DESC";
+
+        $resultado = $this->cn->prepare($sql);
+
+        if($resultado->execute())
+            return $resultado->fetchAll();
+        return false;
+    }
+
+    public function mostrarPorId($id){
+        $sql = "SELECT * FROM peliculas WHERE id=:id";
 
         $resultado = $this->cn->prepare($sql);
 
@@ -80,12 +90,10 @@ class Pelicula
             ":id" => $id
         );
 
+
         if($resultado->execute($_array))
-            return true;
+            return $resultado->fetch();
         return false;
     }
 
-    public function mostrarPorId(){
-        
-    }
 }

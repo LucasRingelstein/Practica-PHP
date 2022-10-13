@@ -14,7 +14,7 @@ class Pelicula
 
         $this->cn = new \PDO($this->config['dns'],$this->config['usuario'],$this->config['clave'],
         array(
-            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'
+            \PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION, \PDO::ATTR_EMULATE_PREPARES => false
         ));
     }
 
@@ -38,7 +38,7 @@ class Pelicula
     }
 
     public function actualizar($_params){
-        $sql = "UPDATE `peliculas` SET `titulo`=':titulo',`descripcion`=':descripcion',`foto`=':foto',`precio`=':precio',`categoria_id`=':categoria_id',`fecha`=':fecha' WHERE `id`=:id";
+        $sql = "UPDATE peliculas SET titulo=:titulo,descripcion=:descripcion,foto=:foto,precio=:precio,categoria_id=:categoria_id,fecha=:fecha WHERE id=:id";
 
         $resultado = $this->cn->prepare($sql);
 
@@ -58,7 +58,7 @@ class Pelicula
     }
 
     public function eliminar($id){
-        $sql = "DELETE FROM 'peliculas' WHERE 'id'=:id";
+        $sql = "DELETE FROM peliculas WHERE id=:id";
 
         $resultado = $this->cn->prepare($sql);
 
@@ -72,12 +72,13 @@ class Pelicula
     }
 
     public function mostrar(){
-        $sql = "SELECT * FROM peliculas INNER JOIN categorias ON peliculas.categoria_id = categorias.id ORDER BY peliculas.id DESC";
+        $sql = "SELECT peliculas.* , categorias.nombre AS categoria_titulo , categorias.id AS categoria_id FROM peliculas INNER JOIN categorias ON peliculas.categoria_id = categorias.id ORDER BY peliculas.id DESC";
 
         $resultado = $this->cn->prepare($sql);
-
+        
         if($resultado->execute())
-            return $resultado->fetchAll();
+        
+            return $resultado->fetchAll((\PDO::FETCH_ASSOC));
         return false;
     }
 

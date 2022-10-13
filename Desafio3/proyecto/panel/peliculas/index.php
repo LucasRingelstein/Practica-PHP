@@ -80,19 +80,22 @@
                             $pelicula = new Kawschool\Pelicula;
 
                             $info_pelicula = $pelicula->mostrar();
+                            // var_dump($info_pelicula);
                             $cantidad = count($info_pelicula);
                             if($cantidad > 0){
                                 $c = 0;
                                 for($x = 0; $x < $cantidad; $x++){
                                     $c++;
                                     $item = $info_pelicula[$x];
-                                    
+                                    // echo "<pre>";
+                                    //  var_dump($item);
+                                    //  echo "<pre>";
                             ?>
 
                             <tr>
                                 <td><?php print $c ?></td>
                                 <td><?php print $item['titulo'] ?></td>
-                                <td><?php print $item['nombre'] ?></td>
+                                <td><?php print $item['categoria_titulo'] ?></td>
                                 <td><?php print $item['precio'] ?></td>
                                 <td class="text-center">
                                     <?php
@@ -105,7 +108,7 @@
                                     <?php } ?>
                                 </td>
                                 <td class="text-center">
-                                    <a href="" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
+                                    <a href="../acciones.php?id=<?php print $item['id'] ?>" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-trash"></span></a>
                                     <a href="form_actualizar.php?id=<?php print $item['id'] ?>" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-edit"></span></a>
                                 </td>
                             </tr>

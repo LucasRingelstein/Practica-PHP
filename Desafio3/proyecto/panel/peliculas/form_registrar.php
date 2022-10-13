@@ -78,7 +78,20 @@
                                     <label>Categorias</label>
                                     <select name="categoria_id" class="form-control" required>
                                         <option value="">--SELECCIONE--</option>
-                                        <option value="1">--ACCION--</option>
+                                        <?php
+                                        require '../../vendor/autoload.php';
+                                        $categoria = new Kawschool\Categoria;
+
+                                        $info_categoria = $categoria->mostrar();
+
+                                        $cantidad = count($info_categoria);
+                                        for ($x = 0; $x < $cantidad; $x++) {
+                                            $item = $info_categoria[$x];
+                                        ?>
+                                            <option value="<?php print $item['id'] ?>"><?php print $item['nombre'] ?></option>
+                                        <?php
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -87,7 +100,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Foto</label>
-                                    <input type="file" class="form-control" cols="3" name="foto" required>
+                                    <input type="file" class="form-control" cols="3" name="foto" >
                                 </div>
                             </div>
                         </div>

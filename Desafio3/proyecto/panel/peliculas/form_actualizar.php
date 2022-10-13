@@ -8,10 +8,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $pelicula = new Kawschool\Pelicula;
     $resultado = $pelicula->mostrarPorId($id);
 
-    if($resultado){
-    // header('Location: index.php');
+    if ($resultado) {
+        // header('Location: index.php');
     }
-}else{
+} else {
     // header('Location: index.php');
 }
 ?>
@@ -79,7 +79,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Titulo</label>
-                                    <textarea value="<?php print $resultado['titulo'] ?>" type="text" class="form-control" name="titulo" required><?php print $resultado['descripcion'] ?>
+                                    <input value="<?php print $resultado['titulo'] ?>" type="text" class="form-control" name="titulo" required>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +87,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Descripcion</label>
-                                    <input type="text" class="form-control" cols="3" name="descripcion" required>
+                                    <input value="<?php print $resultado['descripcion'] ?>" type="text" class="form-control" cols="3" name="descripcion" required>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +97,20 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                                     <label>Categorias</label>
                                     <select name="categoria_id" class="form-control" required>
                                         <option value="">--SELECCIONE--</option>
-                                        <option value="1">--ACCION--</option>
+                                        <?php
+                                        require '../../vendor/autoload.php';
+                                        $categoria = new Kawschool\Categoria;
+
+                                        $info_categoria = $categoria->mostrar();
+
+                                        $cantidad = count($info_categoria);
+                                        for ($x = 0; $x < $cantidad; $x++) {
+                                            $item = $info_categoria[$x];
+                                        ?>
+                                            <option value="<?php print $item['id'] ?>" <?php print $resultado['categoria_id']== $item['id'] ?'selected': '' ?>><?php print $item['nombre'] ?></option>
+                                        <?php
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
@@ -106,7 +119,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Foto</label>
-                                    <input type="file" class="form-control" cols="3" name="foto" required>
+                                    <input type="file" class="form-control" cols="3" name="foto" >
                                     <input type="hidden" name="foto_temp" value="<?php print $resultado['foto'] ?>">
                                 </div>
                             </div>
@@ -119,7 +132,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                                 </div>
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary" value="Actualizar"></button>
+                        <input type="submit" class="btn btn-primary" name="action" value="Actualizar">
                         <a href="index.php" class="btn btn-default">Cancelar</a>
                     </form>
                 </fieldset>

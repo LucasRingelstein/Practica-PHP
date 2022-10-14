@@ -1,3 +1,7 @@
+<?php
+session_start();
+require 'funciones.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,7 +37,7 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav pull-right">
           <li>
-            <a href="" class="btn">CARRITO <span class="badge">0</span></a>
+            <a href="carrito.php" class="btn">CARRITO <span class="badge"><?php print cantidadDePelicula(); ?></span></a>
           </li>
         </ul>
       </div>
@@ -68,7 +72,7 @@
               <?php } ?>
             </div>
             <div class="panel-footer">
-                <a href="carrito.php?id=<?php print $item['titulo'] ?>" class="btn btn-succes btn-block">
+                <a href="carrito.php?id=<?php print $item['id'] ?>" class="btn btn-succes btn-block">
                   <span class="glyphicon  glyphicon-shopping-cart"></span> Comprar
                 </a>
             </div>

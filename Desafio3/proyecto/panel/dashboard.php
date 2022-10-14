@@ -1,3 +1,9 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario_info']) or empty($_SESSION['usuario_info'])) {
+    header('Location: index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,9 +45,9 @@
                         <a href="peliculas/index.php" class="btn">Peliculas</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin<span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?php print $_SESSION['usuario_info']['nombre_usuario'] ?><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Salir</a></li>
+                            <li><a href="cerrarSession.php">Salir</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -51,7 +57,67 @@
     </nav>
 
     <div class="container" id="main">
+        <div class="row">
+            <div class="col-md-12">
+                <fieldset>
+                    <legend>Listado de los 10 ultimos pedidos</legend>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Cliente</th>
+                                <th>Nº Pedido</th>
+                                <th>Total</th>
+                                <th>Fecha</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
+                            <?php
+                            require '../vendor/autoload.php';
+                            $pedido = new Kawschool\Pedido;
+
+                            $info_pedido = $pedido->mostrarUltimos();
+                            // var_dump($info_pedido);
+                            $cantidad = count($info_pedido);
+                            if ($cantidad > 0) {
+                                $c = 0;
+                                for ($x = 0; $x < $cantidad; $x++) {
+                                    $c++;
+                                    $item = $info_pedido[$x];
+                                    // echo "<pre>";
+                                    //  var_dump($item);
+                                    //  echo "<pre>";
+
+                            ?>
+
+                                    <tr>
+                                        <td><?php print $c ?></td>
+                                        <td><?php print $item['nombre'] . ' ' . $item['apellido'] ?></td>
+                                        <td><?php print $item['id'] ?></td>
+                                        <td><?php print 'AR$' . $item['total'] ?></td>
+                                        <td><?php print $item['fecha'] ?></td>
+
+                                        <td class="text-center">
+                                            <a href="pedidos/ver.php?id=<?php print $item['id'] ?>" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                                        </td>
+                                    </tr>
+
+                                <?php
+                                }
+                            } else {
+                                ?>
+                                <tr>
+                                    <td>NO HAY REGISTROS DE PEDIDOSS</td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
     </div> <!-- /container -->
 
 

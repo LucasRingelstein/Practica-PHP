@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
 session_start();
 if (!isset($_SESSION['usuario_info']) or empty($_SESSION['usuario_info'])) {
@@ -6,6 +5,7 @@ if (!isset($_SESSION['usuario_info']) or empty($_SESSION['usuario_info'])) {
 }
 ?>
 
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -61,32 +61,58 @@ if (!isset($_SESSION['usuario_info']) or empty($_SESSION['usuario_info'])) {
         <div class="row">
             <div class="col-md-12">
                 <fieldset>
-                    <legend>Listado de pedidos</legend>
+                    <?php
+                    require '../../vendor/autoload.php';
+                    $id = $_GET['id'];
+                    $pedido = new Kawschool\Pedido;
+                    $info_pedido = $pedido->mostrarPorId($id);
+                    $info_detalle_pedido = $pedido->mostrarDetallePorId($id);
+                    ?>
+                    <legend>Informacion de la compra</legend>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input value="<?php print $info_pedido['nombre'] ?>" type="text" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellidos</label>
+                        <input value="<?php print $info_pedido['apellido'] ?>" type="text" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input value="<?php print $info_pedido['email'] ?>" type="text" class="form-control" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Fecha</label>
+                        <input value="<?php print $info_pedido['fecha'] ?>" type="text" class="form-control" readonly>
+                    </div>
+                    <hr>
+                    PRODUCTOS COMPRADOS
+                    <hr>
                     <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Cliente</th>
-                                <th>Nº Pedido</th>
+                                <th>Titulo</th>
+                                <th>Foto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
                                 <th>Total</th>
-                                <th>Fecha</th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
 
                             <?php
-                            require '../../vendor/autoload.php';
-                            $pedido = new Kawschool\Pedido;
 
-                            $info_pedido = $pedido->mostrar();
+
+
                             // var_dump($info_pedido);
-                            $cantidad = count($info_pedido);
+                            $cantidad = count($info_detalle_pedido);
                             if ($cantidad > 0) {
                                 $c = 0;
                                 for ($x = 0; $x < $cantidad; $x++) {
                                     $c++;
-                                    $item = $info_pedido[$x];
+                                    $item = $info_detalle_pedido[$x];
+                                    $total = $item['precio'] * $item['cantidad'];
                                     // echo "<pre>";
                                     //  var_dump($item);
                                     //  echo "<pre>";
@@ -95,13 +121,23 @@ if (!isset($_SESSION['usuario_info']) or empty($_SESSION['usuario_info'])) {
 
                                     <tr>
                                         <td><?php print $c ?></td>
-                                        <td><?php print $item['nombre'] . ' ' . $item['apellido'] ?></td>
-                                        <td><?php print $item['id'] ?></td>
-                                        <td><?php print 'AR$' . $item['total'] ?></td>
-                                        <td><?php print $item['fecha'] ?></td>
+                                        <td><?php print $item['titulo'] ?></td>
+                                        <td class="text-center">
+                                            <?php
+                                            $foto = '../../upload/' . $item['foto'];
+                                            if (file_exists($foto)) {
+                                            ?>
+                                                <img src="<?php print $foto; ?>" width="35">
+                                            <?php } else { ?>
+                                                SIN FOTO
+                                            <?php } ?>
+                                        </td>
+                                        <td><?php print 'AR$' . $item['precio'] ?></td>
+                                        <td><?php print $item['cantidad'] ?></td>
+                                        <td><?php print $total ?></td>
 
                                         <td class="text-center">
-                                            <a href="ver.php?id=<?php print $item['id'] ?>" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-eye-open"></span></a>
+                                            <a href="ver.php?id=<?php print $item['id'] ?>" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-eye-open hidden-print"></span></a>
 
                                         </td>
                                     </tr>
@@ -116,11 +152,18 @@ if (!isset($_SESSION['usuario_info']) or empty($_SESSION['usuario_info'])) {
                             <?php } ?>
                         </tbody>
                     </table>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Total de la compra</label>
+                            <input value="<?php print $info_pedido['total'] ?>" type="text" class="form-control" readonly>
+                        </div>
+                    </div>
                 </fieldset>
+                <div class="pull-left"><a href="index.php" class="btn btn-default hidden-print">Cancelar</a></div>
+                <div class="pull-right"><a href="js" id="btnImprimir" class="btn btn-danger hidden-print">Imprimir</a></div>
             </div>
         </div>
-    </div>
-
+    </div> <!-- /container -->
 
 
     <!-- Bootstrap core JavaScript
@@ -128,7 +171,15 @@ if (!isset($_SESSION['usuario_info']) or empty($_SESSION['usuario_info'])) {
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="../../assets/js/jquery.min.js"></script>
     <script src="../../assets/js/bootstrap.min.js"></script>
+    <script>
+        $('#btnImprimir').on('click',function(){
 
+            window.print();
+
+            return false;
+
+        })
+    </script>
 </body>
 
 </html>

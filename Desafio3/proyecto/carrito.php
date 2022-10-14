@@ -6,18 +6,26 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     require 'vendor/autoload.php';
     $pelicula = new Kawschool\Pelicula;
     $resultado = $pelicula->mostrarPorId($id);
-    if (!$resultado) {
+
+    if (!$resultado)
         header('Location: index.php');
 
-        if (isset($_SESSION['carrito'])) {
-            if (array_key_exists($id, $_SESSION['carrito'])) {
-                actualizarPelicula($id);
-            } else {
-                agregarPelicula($resultado, $id);
-            }
+    if (isset($_SESSION['carrito'])) {
+        if (array_key_exists($id, $_SESSION['carrito'])) {
+            actualizarPelicula($id);
         } else {
+            // echo "<pre>";
+            // var_dump($resultado);
+            // echo "<pre>";
+
             agregarPelicula($resultado, $id);
         }
+    } else {
+        // echo "<pre>";
+        // var_dump($resultado);
+        // echo "<pre>";
+
+        agregarPelicula($resultado, $id);
     }
 }
 
@@ -58,7 +66,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav pull-right">
                     <li>
-                        <a href="" class="btn">CARRITO <span class="badge">0</span></a>
+                        <a href="carrito.php" class="btn">CARRITO <span class="badge"><?php print cantidadDePelicula(); ?></span></a>
                     </li>
                 </ul>
             </div>
@@ -72,63 +80,88 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 <tr>
                     <th>#</th>
                     <th>Pelicula</th>
-                    <th>Fot</th>
+                    <th>Foto</th>
                     <th>Precio</th>
                     <th>Cantidad</th>
                     <th>Total</th>
-                    <th class="text-center">Foto</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
+                    $c = 0;
                     foreach ($_SESSION['carrito'] as $indice => $value) {
+                        $c++;
                         $total = $value['precio'] * $value['cantidad'];
                 ?>
                         <tr>
                             <form action="actualizarCarrito.php" method="POST">
-                            <td> <?php print $value['titulo'] ?></td>
-                            <td>
-                                <?php
-                                $foto = 'upload/' . $value['foto'];
-                                if (file_exists($foto)) {
-                                ?>
-                                    <img src="<?php print $foto; ?>" width="35">
-                                <?php } else { ?>
-                                    <img src="assets/imagenes/not-found.jpg" width="35">
-                                <?php } ?>
-                            </td>
-                            <td> <?php print $value['precio'] ?></td>
-                            <td>
-                                <input type="HIDDEN" name="ID" class="form-control u-size-100" value="<?php print $value['ID'] ?>">
-                            </td>
-                            <td>
-                                <input type="text" name="cantidad" class="form-control u-size-100" value="<?php print $value['cantidad'] ?>">
-                            </td>
-                            <td>
-                                <?php
-                                print $total
-                                ?>
-                            </td>
-                            <td>
-                                <button type="submit" class="btn btn-success btn-xs">
-                                    <span class="glyphicon glyphicon-refresh"></span>
-                                </button>
-                                <a href="eliminarCarrito.php?id=<?php print $value['id'] ?>" class="btn btn-danger btn-xs">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </a>
-                            </td>
+                                <td><?php print $c ?></td>
+                                <td> <?php print $value['titulo'] ?></td>
+                                <td>
+                                    <?php
+                                    $foto = 'upload/' . $value['foto'];
+                                    if (file_exists($foto)) {
+                                    ?>
+                                        <img src="<?php print $foto; ?>" width="35">
+                                    <?php } else { ?>
+                                        <img src="assets/imagenes/not-found.jpg" width="35">
+                                    <?php } ?>
+                                </td>
+                                <td> <?php print 'AR$' . $value['precio'] ?></td>
+                                <td>
+                                    <input type="hidden" name="id" class="form-control u-size-100" value="<?php print $value['id'] ?>">
+                                    <input type="text" name="cantidad" class="form-control u-size-100" value="<?php print $value['cantidad'] ?>">
+                                </td>
+                                <td>
+                                    <?php
+                                    print 'AR$' . $total;
+                                    ?>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-success btn-xs">
+                                        <span class="glyphicon glyphicon-refresh"></span>
+                                    </button>
+                                    <a href="eliminarCarrito.php?id=<?php print $value['id'] ?>" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </a>
+                                </td>
                             </form>
-                        <?php
+                        </tr>
+                    <?php
                     }
                 } else {
-                        ?>
-                        <tr colspan="7">NO HAY PRODUCTOS EN EL CARRITO</tr>
-                    <?php
-                }
                     ?>
+                    <tr colspan="7">NO HAY PRODUCTOS EN EL CARRITO</tr>
+                <?php
+                }
+                ?>
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">Total</td>
+                    <td><?php print  'AR$' . cantidadTotal(); ?></td>
+                </tr>
+            </tfoot>
+        </table>
+        <hr>
+        <?php
+        if (isset($_SESSION['carrito']) && !empty($_SESSION['carrito'])) {
+        ?>
+
+            <div class="row">
+                <div class="pull-left">
+                    <a href="index.php" class="btn btn-info">Seguir comprando</a>
+                </div>
+                <div class="pull-right">
+                    <a href="finalizar.php" class="btn btn-success">Finalizar compra</a>
+                </div>
+            </div>
+
+        <?php
+        }
+        ?>
     </div>
 
     <!-- Bootstrap core JavaScript

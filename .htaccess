@@ -1,0 +1,3 @@
+#Options All -Indexes
+#ErrorDocument 403 https://server.com/pil/Practica-PHP/Desafio3/proyecto/403.html
+#ErrorDocument 404 https://server.com/pil/Practica-PHP/Desafio3/proyecto/404.html

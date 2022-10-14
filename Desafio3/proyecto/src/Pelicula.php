@@ -72,7 +72,8 @@ class Pelicula
     }
 
     public function mostrar(){
-        $sql = "SELECT peliculas.* , categorias.nombre AS categoria_titulo , categorias.id AS categoria_id FROM peliculas INNER JOIN categorias ON peliculas.categoria_id = categorias.id ORDER BY peliculas.id DESC";
+        $sql = "SELECT peliculas.* , categorias.nombre AS categoria_titulo , categorias.id AS categoria_id FROM peliculas 
+        INNER JOIN categorias ON peliculas.categoria_id = categorias.id ORDER BY peliculas.id DESC";
 
         $resultado = $this->cn->prepare($sql);
         
